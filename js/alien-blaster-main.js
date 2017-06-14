@@ -25,14 +25,14 @@ function AlienBlasterMain() {
     this.loadGameAssets();
 }
 
-AlienBlasterMain.prototype.update = function (delta) {
+AlienBlasterMain.prototype.update = function update(delta) {
 
     for (var i = 0; i < this.aliens.length; i++) {
         this.aliens[i].update(delta);
     }
 }
 
-AlienBlasterMain.prototype.loadGameAssets = function () {
+AlienBlasterMain.prototype.loadGameAssets = function loadGameAssets() {
 
     loader.add([
         "resources/img/aliensAtlas.json",
@@ -50,11 +50,11 @@ AlienBlasterMain.prototype.loadGameAssets = function () {
     sounds.whenLoaded = this.soundLoadCompleteHandler.bind(this);
 };
 
-AlienBlasterMain.prototype.loadProgressHandler = function (loader, resource) {
+AlienBlasterMain.prototype.loadProgressHandler = function loadProgressHandler(loader, resource) {
     console.log("Pixi load progress: " + loader.progress + "%");
 };
 
-AlienBlasterMain.prototype.pixiLoadCompleteHandler = function () {
+AlienBlasterMain.prototype.pixiLoadCompleteHandler = function pixiLoadCompleteHandler() {
 
     this.pixiAssetsLoaded = true;
 
@@ -63,7 +63,7 @@ AlienBlasterMain.prototype.pixiLoadCompleteHandler = function () {
     }
 }
 
-AlienBlasterMain.prototype.soundLoadCompleteHandler = function () {
+AlienBlasterMain.prototype.soundLoadCompleteHandler = function soundLoadCompleteHandler() {
 
     this.soundAssetsLoaded = true;
     this.sounds.alien_appears = sounds["resources/sound/alien-appears.mp3"];
@@ -74,7 +74,7 @@ AlienBlasterMain.prototype.soundLoadCompleteHandler = function () {
     }
 }
 
-AlienBlasterMain.prototype.loadCompleteHandler = function () {
+AlienBlasterMain.prototype.loadCompleteHandler = function loadCompleteHandler() {
 
     setTimeout(resize(this), 0);
 
@@ -92,7 +92,7 @@ AlienBlasterMain.prototype.loadCompleteHandler = function () {
     this.app.ticker.add(this.update.bind(this));
 };
 
-AlienBlasterMain.prototype.createAliens = function () {
+AlienBlasterMain.prototype.createAliens = function createAliens() {
 
     var alien_textures = [];
     var textureIndex = 0;
@@ -112,7 +112,7 @@ AlienBlasterMain.prototype.createAliens = function () {
     }
 };
 
-AlienBlasterMain.prototype.addAlienToStageOrderedByScale = function (newAlien) {
+AlienBlasterMain.prototype.addAlienToStageOrderedByScale = function addAlienToStageOrderedByScale(newAlien) {
 
     if (this.alienContainer.children.length === 0) {
 

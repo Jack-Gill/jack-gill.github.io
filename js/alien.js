@@ -53,7 +53,7 @@ Alien.prototype.update = function alienUpdate(delta) {
 
 };
 
-Alien.prototype.setStartPosition = function () {
+Alien.prototype.setStartPosition = function setStartPosition() {
 
     this.half_height = this.height / 2;
     this.half_width = this.width / 2;
@@ -69,7 +69,7 @@ Alien.prototype.setStartPosition = function () {
     this.started_moving = false;
 }
 
-Alien.prototype.hasLeftScreen = function () {
+Alien.prototype.hasLeftScreen = function hasLeftScreen() {
     if ((this.position.x - this.half_width) > this.renderer_width) {
         return true;
     } else {
@@ -78,7 +78,7 @@ Alien.prototype.hasLeftScreen = function () {
 };
 
 
-Alien.prototype.onClick = function () {
+Alien.prototype.onClick = function alienOnClick() {
 
     this.explosion_sound.play();
 
@@ -90,7 +90,7 @@ Alien.prototype.onClick = function () {
 
 };
 
-Alien.prototype.explosionFinished = function () {
+Alien.prototype.explosionFinished = function explosionFinished() {
 
     this.visible = false;
 
