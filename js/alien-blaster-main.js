@@ -15,17 +15,15 @@ function AlienBlasterMain() {
     this.aliens = [];
     this.alien_texture_atlas;
     this.number_of_alien_textures = 5;
+    this.alien_speed = 5;
+    this.pixiAssetsLoaded = false;
+    this.soundAssetsLoaded = false;
+    this.sounds = {};
 
-    resize(this);
+
 
     this.loadGameAssets();
 }
-
-AlienBlasterMain.ALIEN_SPEED = 5;
-
-AlienBlasterMain.pixiAssetsLoaded = false;
-AlienBlasterMain.soundAssetsLoaded = false;
-AlienBlasterMain.sounds = {};
 
 AlienBlasterMain.prototype.update = function (delta) {
 
@@ -49,7 +47,7 @@ AlienBlasterMain.prototype.loadGameAssets = function () {
 
     //Assign the callback function that should run
     //when the sounds have loaded
-    sounds.whenLoaded = this.soundLoadCompleteHandler;
+    sounds.whenLoaded = this.soundLoadCompleteHandler.bind(this);
 };
 
 AlienBlasterMain.prototype.loadProgressHandler = function (loader, resource) {
@@ -58,25 +56,27 @@ AlienBlasterMain.prototype.loadProgressHandler = function (loader, resource) {
 
 AlienBlasterMain.prototype.pixiLoadCompleteHandler = function () {
 
-    AlienBlasterMain.pixiAssetsLoaded = true;
+    this.pixiAssetsLoaded = true;
 
-    if (AlienBlasterMain.soundAssetsLoaded) {
+    if (this.soundAssetsLoaded) {
         this.loadCompleteHandler();
     }
 }
 
 AlienBlasterMain.prototype.soundLoadCompleteHandler = function () {
 
-    AlienBlasterMain.soundAssetsLoaded = true;
-    AlienBlasterMain.sounds.alien_appears = sounds["resources/sound/alien-appears.mp3"];
-    AlienBlasterMain.sounds.alien_explodes = sounds["resources/sound/alien-explodes.mp3"];
+    this.soundAssetsLoaded = true;
+    this.sounds.alien_appears = sounds["resources/sound/alien-appears.mp3"];
+    this.sounds.alien_explodes = sounds["resources/sound/alien-explodes.mp3"];
 
-    if (AlienBlasterMain.pixiAssetsLoaded) {
+    if (this.pixiAssetsLoaded) {
         this.loadCompleteHandler();
     }
 }
 
 AlienBlasterMain.prototype.loadCompleteHandler = function () {
+
+    setTimeout(resize(this), 0);
 
     this.alien_texture_atlas = resources["resources/img/aliensAtlas.json"].textures;
 
@@ -104,7 +104,9 @@ AlienBlasterMain.prototype.createAliens = function () {
     for (var i = 0; i < this.number_of_aliens; i++) {
 
         textureIndex = i % this.number_of_alien_textures;
-        this.aliens[i] = new Alien(alien_textures[textureIndex], this.app.renderer.height, this.app.renderer.width, this.explosion_textures, this.app.stage);
+
+        this.aliens[i] = new Alien(alien_textures[textureIndex], this.alien_speed, this.app.renderer.height, this.app.renderer.width, this.explosion_textures, this.sounds.alien_explodes, this.app.stage);
+
         this.aliens[i].setStartPosition();
         this.addAlienToStageOrderedByScale(this.aliens[i])
     }

@@ -1,4 +1,4 @@
-function Alien(texture, renderer_height, renderer_width, explosion_textures, stage) {
+function Alien(texture, speed, renderer_height, renderer_width, explosion_textures, explosion_sound, stage) {
 
     PIXI.Sprite.call(this, texture);
 
@@ -12,11 +12,12 @@ function Alien(texture, renderer_height, renderer_width, explosion_textures, sta
     this.started_moving = false;
     this.wait_to_move_start_time = 0;
     this.wait_to_move_milliseconds = 0;
+    this.explosion_sound = explosion_sound;
 
     var new_scale = randomRange(0.5, 1.5).toFixed(2);
     this.scale.set(new_scale, new_scale);
 
-    this.speed = AlienBlasterMain.ALIEN_SPEED * new_scale;
+    this.speed = speed * new_scale;
 
     this.interactive = true;
     this.on('pointerdown', this.onClick);
@@ -44,7 +45,7 @@ Alien.prototype.update = function alienUpdate(delta) {
         }
 
     } else {
-        var difference = Date.now() - this.wait_to_move_start_time;
+
         if ((Date.now() - this.wait_to_move_start_time) > this.wait_to_move_milliseconds) {
             this.started_moving = true;
         }
@@ -76,13 +77,10 @@ Alien.prototype.hasLeftScreen = function () {
     }
 };
 
-Alien.prototype.startMoving = function () {
-    this.started_moving = true;
-};
 
 Alien.prototype.onClick = function () {
 
-    AlienBlasterMain.sounds.alien_explodes.play();
+    this.explosion_sound.play();
 
     this.explosion_sprite.position.set(this.position.x, this.position.y);
     this.explosion_sprite.visible = true;
