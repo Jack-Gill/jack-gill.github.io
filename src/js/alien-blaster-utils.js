@@ -124,11 +124,9 @@ if (!Object.keys) {
     };
 }
 
-function resize(that) {
-    if (!that) {
-        that = this;
-    }
-    that.app.renderer.view.style.position = 'absolute';
-    that.app.renderer.view.style.left = ((window.innerWidth - that.app.renderer.width) >> 1) + 'px';
-    that.app.renderer.view.style.top = ((window.innerHeight - that.app.renderer.height) >> 1) + 'px';
+//Resize function is always called with 'this' bound to the instance of AlienBlasterMain
+function resize(event) {
+    this.app.renderer.view.style.position = 'absolute';
+    this.app.renderer.view.style.left = ((window.innerWidth - this.app.renderer.width) >> 1) + 'px';
+    this.app.renderer.view.style.top = ((window.innerHeight - this.app.renderer.height) >> 1) + 'px';
 }

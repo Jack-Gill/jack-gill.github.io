@@ -20,8 +20,6 @@ function AlienBlasterMain() {
     this.soundAssetsLoaded = false;
     this.sounds = {};
 
-
-
     this.loadGameAssets();
 }
 
@@ -35,14 +33,14 @@ AlienBlasterMain.prototype.update = function update(delta) {
 AlienBlasterMain.prototype.loadGameAssets = function loadGameAssets() {
 
     loader.add([
-        "resources/img/aliensAtlas.json",
-        "resources/img/explosionAtlas.json"
+        "img/aliensAtlas.json",
+        "img/explosionAtlas.json"
     ]).on("progress", this.loadProgressHandler.bind(this));
     loader.load(this.pixiLoadCompleteHandler.bind(this));
 
     sounds.load([
-  "resources/sound/alien-appears.mp3",
-        "resources/sound/alien-explodes.mp3"
+        "sound/alien-appears.mp3",
+        "sound/alien-explodes.mp3"
     ]);
 
     //Assign the callback function that should run
@@ -66,8 +64,8 @@ AlienBlasterMain.prototype.pixiLoadCompleteHandler = function pixiLoadCompleteHa
 AlienBlasterMain.prototype.soundLoadCompleteHandler = function soundLoadCompleteHandler() {
 
     this.soundAssetsLoaded = true;
-    this.sounds.alien_appears = sounds["resources/sound/alien-appears.mp3"];
-    this.sounds.alien_explodes = sounds["resources/sound/alien-explodes.mp3"];
+    this.sounds.alien_appears = sounds["sound/alien-appears.mp3"];
+    this.sounds.alien_explodes = sounds["sound/alien-explodes.mp3"];
 
     if (this.pixiAssetsLoaded) {
         this.loadCompleteHandler();
@@ -76,11 +74,11 @@ AlienBlasterMain.prototype.soundLoadCompleteHandler = function soundLoadComplete
 
 AlienBlasterMain.prototype.loadCompleteHandler = function loadCompleteHandler() {
 
-    setTimeout(resize(this), 0);
+    setTimeout(resize.bind(this), 0);
 
-    this.alien_texture_atlas = resources["resources/img/aliensAtlas.json"].textures;
+    this.alien_texture_atlas = resources["img/aliensAtlas.json"].textures;
 
-    var explosion_atlas = resources["resources/img/explosionAtlas.json"].textures;
+    var explosion_atlas = resources["img/explosionAtlas.json"].textures;
     this.explosion_textures = [];
 
     for (var i = 0; i < Object.keys(explosion_atlas).length; i++) {
